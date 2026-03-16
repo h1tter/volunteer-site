@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добрый Город | Волонтёрский центр</title>
     <style>
+        /* ===== СТИЛИ (без изменений, как в вашем последнем файле) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -24,6 +25,9 @@
             background: white;
             padding: 20px 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         .navbar .container {
             display: flex;
@@ -36,6 +40,7 @@
             font-weight: 700;
             color: #2d6a4f;
             text-decoration: none;
+            cursor: pointer;
         }
         .nav-links {
             display: flex;
@@ -43,10 +48,14 @@
             align-items: center;
             flex-wrap: wrap;
         }
-        .nav-links a {
+        .nav-links a, .nav-links button {
             text-decoration: none;
             color: #333;
             font-weight: 500;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 16px;
         }
         .btn-outline {
             border: 2px solid #2d6a4f;
@@ -55,6 +64,9 @@
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
+            cursor: pointer;
+            background: none;
+            font-size: 16px;
         }
         .btn-success {
             background: #2d6a4f;
@@ -63,6 +75,9 @@
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
         }
         .hero {
             background: linear-gradient(135deg, #2d6a4f, #40916c);
@@ -95,6 +110,9 @@
             border-radius: 40px;
             text-decoration: none;
             font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-size: 18px;
         }
         .btn-outline-light {
             border: 2px solid white;
@@ -103,6 +121,9 @@
             border-radius: 40px;
             text-decoration: none;
             font-weight: 700;
+            cursor: pointer;
+            background: none;
+            font-size: 18px;
         }
         .stats {
             margin-top: -40px;
@@ -148,6 +169,11 @@
         .card-img {
             height: 160px;
             background: linear-gradient(135deg, #2d6a4f, #40916c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
         }
         .card-content {
             padding: 20px;
@@ -177,6 +203,21 @@
             color: #2d6a4f;
             text-decoration: none;
             font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            background: none;
+            font-size: 16px;
+        }
+        .btn-card-small {
+            padding: 5px 15px;
+            border: 2px solid #2d6a4f;
+            border-radius: 30px;
+            color: #2d6a4f;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            background: none;
+            font-size: 14px;
         }
         .tasks-row {
             display: grid;
@@ -206,6 +247,7 @@
         }
         .task-info small {
             color: #6b7280;
+            display: block;
         }
         .task-badge {
             background: #2d6a4f;
@@ -227,6 +269,9 @@
             border-radius: 30px;
             display: inline-block;
             margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
         }
         .steps-grid {
             display: grid;
@@ -270,6 +315,7 @@
             text-decoration: none;
             display: block;
             margin-bottom: 8px;
+            cursor: pointer;
         }
         .footer hr {
             margin: 30px 0 20px;
@@ -280,167 +326,598 @@
             color: #6c8a9c;
             font-size: 14px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: #1e2f3a;
+        }
+        .modal-content input, .modal-content textarea, .modal-content select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        .modal-content textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .modal-buttons .submit {
+            background: #2d6a4f;
+            color: white;
+        }
+        .modal-buttons .cancel {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2d6a4f;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+            z-index: 2000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: #2d6a4f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .my-reports-section {
+            margin: 40px 0;
+        }
+        .report-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #eef2f6;
+        }
+        .report-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .project-detail-modal {
+            max-width: 600px;
+        }
+        .project-tasks-list {
+            margin: 20px 0;
+        }
+        .project-task-item {
+            padding: 10px;
+            border: 1px solid #eef2f6;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
         @media (max-width: 768px) {
             .hero h1 { font-size: 32px; }
-            .nav-links { margin-top: 15px; }
+            .tasks-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+    <!-- Модальное окно входа -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h3>Вход в систему</h3>
+            <input type="email" placeholder="Email" id="loginEmail" required>
+            <input type="password" placeholder="Пароль" id="loginPassword" required>
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeModal('loginModal')">Отмена</button>
+                <button class="submit" onclick="loginVolunteer()">Войти</button>
+            </div>
+        </div>
+    </div>
 
-<nav class="navbar">
+    <!-- Модальное окно регистрации -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <h3>Регистрация волонтёра</h3>
+            <input type="email" placeholder="Email *" id="regEmail" required>
+            <input type="password" placeholder="Пароль *" id="regPassword" required>
+            <p style="font-size: 12px; color: #6b7280; margin-top: -10px;">* Обязательные поля</p>
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeModal('registerModal')">Отмена</button>
+                <button class="submit" onclick="registerVolunteer()">Зарегистрироваться</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно уведомлений -->
+    <div class="modal" id="notificationModal">
+        <div class="modal-content">
+            <h3 id="notificationTitle">Уведомление</h3>
+            <p id="notificationMessage"></p>
+            <div class="modal-buttons">
+                <button class="submit" onclick="closeModal('notificationModal')">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для записи на задачу -->
+    <div class="modal" id="joinTaskModal">
+        <div class="modal-content">
+            <h3>Запись на задачу</h3>
+            <p id="joinTaskInfo"></p>
+            <input type="hidden" id="joinTaskId">
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeModal('joinTaskModal')">Отмена</button>
+                <button class="submit" onclick="confirmJoinTask()">Подтвердить запись</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно деталей проекта -->
+    <div class="modal" id="projectDetailsModal">
+        <div class="modal-content project-detail-modal">
+            <h3 id="projectDetailTitle">Информация о проекте</h3>
+            <div id="projectDetailContent"></div>
+            <div class="project-tasks-list" id="projectTasksList"></div>
+            <div class="modal-buttons">
+                <button class="submit" onclick="closeModal('projectDetailsModal')">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Тосты для уведомлений -->
+    <div class="toast" id="toast"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo" onclick="scrollToTop()">❤️ Добрый Город</a>
+            <div class="nav-links">
+                <a onclick="showProjects()">Проекты</a>
+                <a onclick="showTasks()">Задачи</a>
+                <a onclick="showHelp()">Как помочь</a>
+
+                <div id="authButtons">
+                    <button class="btn-outline" onclick="openModal('loginModal')">Войти</button>
+                    <button class="btn-success" onclick="openModal('registerModal')">Регистрация</button>
+                </div>
+                <div id="userMenu" style="display: none;">
+                    <div class="user-info">
+                        <span id="userEmailDisplay"></span>
+                        <div class="avatar" id="userAvatar">👤</div>
+                        <button class="btn-outline" onclick="logout()">Выйти</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Твоё добро может изменить мир</h1>
+            <p>Присоединяйся к волонтёрскому движению. Помогай тем, кто нуждается, и находи новых друзей.</p>
+            <div class="hero-buttons">
+                <button class="btn-light" onclick="openModal('registerModal')">Стать волонтёром</button>
+                <button class="btn-outline-light" onclick="showProjects()">Смотреть проекты</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container stats">
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-item">
+                <div class="stat-number" id="volunteersCount">0</div>
+                <div class="stat-label">Активных волонтёров</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="tasksCompleted">0</div>
+                <div class="stat-label">Выполненных задач</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="projectsCount">0</div>
+                <div class="stat-label">Проектов</div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
-        <a href="#" class="logo">❤️ Добрый Город</a>
-        <div class="nav-links">
-            <a href="#">Проекты</a>
-            <a href="#">Задачи</a>
-            <a href="#">Как помочь</a>
-            <a href="#">Отчёты</a>
-            <a href="#" class="btn-outline">Войти</a>
-            <a href="#" class="btn-success">Регистрация</a>
+        <div class="section-title">🔥 Активные проекты</div>
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Проекты будут загружены через API -->
         </div>
     </div>
-</nav>
 
-<section class="hero">
     <div class="container">
-        <h1>Твоё добро может изменить мир</h1>
-        <p>Присоединяйся к волонтёрскому движению. Помогай тем, кто нуждается, и находи новых друзей.</p>
-        <div class="hero-buttons">
-            <a href="#" class="btn-light">Стать волонтёром</a>
-            <a href="#" class="btn-outline-light">Смотреть проекты</a>
-        </div>
-    </div>
-</section>
-
-<div class="container stats">
-    <div class="stats-grid">
-        <div class="stat-item">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Активных волонтёров</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Выполненных задач</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Проектов</div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="section-title">🔥 Активные проекты</div>
-    <div class="projects-grid">
-        <div class="card">
-            <div class="card-img"></div>
-            <div class="card-content">
-                <h4 class="card-title">Помощь пожилым людям</h4>
-                <p class="card-text">Скоро откроется. Следите за новостями.</p>
-                <div class="card-meta">
-                    <span>📅 скоро</span>
-                    <span>👤 0 чел.</span>
-                </div>
-                <a href="#" class="btn-card">Скоро</a>
+        <div class="section-title">📅 Ближайшие задачи</div>
+        <div class="tasks-row">
+            <div class="task-list" id="tasksList">
+                <!-- Задачи будут загружены через API -->
             </div>
-        </div>
-        <div class="card">
-            <div class="card-img"></div>
-            <div class="card-content">
-                <h4 class="card-title">Эко-субботники</h4>
-                <p class="card-text">Проект в разработке.</p>
-                <div class="card-meta">
-                    <span>📅 TBD</span>
-                    <span>👤 0 чел.</span>
-                </div>
-                <a href="#" class="btn-card">Скоро</a>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-img"></div>
-            <div class="card-content">
-                <h4 class="card-title">Приют для животных</h4>
-                <p class="card-text">Откроется позже.</p>
-                <div class="card-meta">
-                    <span>📅 TBD</span>
-                    <span>👤 0 чел.</span>
-                </div>
-                <a href="#" class="btn-card">Скоро</a>
+            <div class="info-box">
+                <h4>Хотите помочь?</h4>
+                <p>Подпишитесь на уведомления о новых задачах.</p>
+                <button class="btn-info" onclick="subscribeToNews()">Подписаться</button>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container">
-    <div class="section-title">📅 Ближайшие задачи</div>
-    <div class="tasks-row">
-        <div class="task-list">
-            <div class="task-item">
-                <div class="task-info">
-                    <h4>Задач пока нет</h4>
-                    <small>Скоро появятся</small>
-                </div>
-                <span class="task-badge">0 мест</span>
-            </div>
-        </div>
-        <div class="info-box">
-            <h4>Хотите помочь?</h4>
-            <p>Подпишитесь на уведомления о новых задачах.</p>
-            <a href="#" class="btn-info">Подписаться</a>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="section-title">Как стать частью команды</div>
-    <div class="steps-grid">
-        <div class="step">
-            <div class="step-number">1</div>
-            <h5>Регистрация</h5>
-            <p>Заполните анкету</p>
-        </div>
-        <div class="step">
-            <div class="step-number">2</div>
-            <h5>Выбор задачи</h5>
-            <p>Выберите проект</p>
-        </div>
-        <div class="step">
-            <div class="step-number">3</div>
-            <h5>Участие</h5>
-            <p>Помогайте</p>
-        </div>
-        <div class="step">
-            <div class="step-number">4</div>
-            <h5>Отчёт</h5>
-            <p>Отправьте фото</p>
-        </div>
-    </div>
-</div>
-
-<footer class="footer">
     <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4 style="color: white; margin-bottom: 15px;">❤️ Добрый Город</h4>
-                <p>Новый волонтёрский проект. Скоро открытие.</p>
+        <div class="section-title">Как стать частью команды</div>
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h5>Регистрация</h5>
+                <p>Укажите email и пароль</p>
+                <button class="btn-card" style="margin-top: 10px;" onclick="openModal('registerModal')">Записаться</button>
             </div>
-            <div>
-                <h5 style="color: white; margin-bottom: 15px;">Навигация</h5>
-                <a href="#">Проекты</a>
-                <a href="#">Задачи</a>
-                <a href="#">Контакты</a>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h5>Выбор задачи</h5>
+                <p>Выберите проект</p>
+                <button class="btn-card" style="margin-top: 10px;" onclick="showTasks()">Выбрать</button>
             </div>
-            <div>
-                <h5 style="color: white; margin-bottom: 15px;">Контакты</h5>
-                <a href="#">info@dobrygorod.ru</a>
-                <a href="#">8 (800) 123-45-67</a>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h5>Участие</h5>
+                <p>Помогайте</p>
+                <button class="btn-card" style="margin-top: 10px;" onclick="showNotification('Участие', 'После регистрации вы сможете участвовать в проектах.')">Узнать</button>
             </div>
         </div>
-        <hr>
-        <p class="copyright">© 2025 Добрый Город</p>
     </div>
-</footer>
 
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4 style="color: white; margin-bottom: 15px;">❤️ Добрый Город</h4>
+                    <p>Волонтёрский центр помощи</p>
+                </div>
+                <div>
+                    <h5 style="color: white; margin-bottom: 15px;">Навигация</h5>
+                    <a onclick="showProjects()">Проекты</a>
+                    <a onclick="showTasks()">Задачи</a>
+                    <a onclick="showContacts()">Контакты</a>
+                </div>
+                <div>
+                    <h5 style="color: white; margin-bottom: 15px;">Контакты</h5>
+                    <a href="mailto:info@dobrygorod.ru">info@dobrygorod.ru</a>
+                    <a href="tel:88001234567">8 (800) 123-45-67</a>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">© 2025 Добрый Город</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====
+        let currentUser = null;
+        let projects = [];
+        let tasks = [];
+
+        // ==== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ====
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadProjects();
+            loadTasks();
+            checkStoredAuth();
+        });
+
+        // ==== РАБОТА С ЛОКАЛЬНЫМ ХРАНИЛИЩЕМ ====
+        function checkStoredAuth() {
+            const storedEmail = localStorage.getItem('userEmail');
+            if (storedEmail) {
+                currentUser = { email: storedEmail };
+                updateUIBasedOnAuth();
+            }
+        }
+
+        function updateUIBasedOnAuth() {
+            if (currentUser) {
+                document.getElementById('authButtons').style.display = 'none';
+                document.getElementById('userMenu').style.display = 'block';
+                document.getElementById('userEmailDisplay').textContent = currentUser.email;
+            } else {
+                document.getElementById('authButtons').style.display = 'flex';
+                document.getElementById('userMenu').style.display = 'none';
+            }
+        }
+
+        // ==== УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ДЛЯ ЗАПРОСОВ К API ====
+        async function apiRequest(url, method = 'GET', data = null) {
+            const options = {
+                method: method,
+                headers: { 'Content-Type': 'application/json' }
+            };
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+            try {
+                const response = await fetch(`http://localhost:8000${url}`, options);
+                return await response.json();
+            } catch (error) {
+                console.error(`API Error (${url}):`, error);
+                showToast('Ошибка соединения с сервером', false);
+                return null;
+            }
+        }
+
+        // ==== ЗАГРУЗКА ДАННЫХ ====
+        async function loadStats() {
+            const data = await apiRequest('/api/stats');
+            if (data) {
+                document.getElementById('volunteersCount').textContent = data.volunteers_count ?? 0;
+                document.getElementById('tasksCompleted').textContent = data.tasks_completed ?? 0;
+                document.getElementById('projectsCount').textContent = data.projects_count ?? 0;
+            }
+        }
+
+        async function loadProjects() {
+            const data = await apiRequest('/api/projects');
+            if (data && Array.isArray(data)) {
+                projects = data;
+                const grid = document.getElementById('projectsGrid');
+                grid.innerHTML = projects.length === 0
+                    ? '<div class="card"><div class="card-content">Проектов пока нет</div></div>'
+                    : projects.map(project => `
+                        <div class="card">
+                            <div class="card-img">🤝</div>
+                            <div class="card-content">
+                                <h4 class="card-title">${project.name || 'Проект'}</h4>
+                                <p class="card-text">${project.description || 'Описание проекта'}</p>
+                                <div class="card-meta"><span>📅 ${project.status || 'активен'}</span></div>
+                                <button class="btn-card" onclick="showProjectDetails(${project.id})">Подробнее</button>
+                            </div>
+                        </div>
+                    `).join('');
+            }
+        }
+
+        async function loadTasks() {
+            const data = await apiRequest('/api/tasks');
+            if (data && Array.isArray(data)) {
+                tasks = data;
+                const list = document.getElementById('tasksList');
+                list.innerHTML = tasks.length === 0
+                    ? '<div class="task-item"><div class="task-info"><h4>Задач пока нет</h4></div><span class="task-badge">0 мест</span></div>'
+                    : tasks.map(task => `
+                        <div class="task-item">
+                            <div class="task-info">
+                                <h4>${task.title || 'Задача'}</h4>
+                                <small>📅 ${task.task_date || 'Дата не указана'} ${task.task_time || ''}</small>
+                                <small>📍 ${task.location || 'Место не указано'}</small>
+                            </div>
+                            <div>
+                                <span class="task-badge">нужно ${task.volunteers_needed || 1} чел.</span>
+                                <button class="btn-card-small" onclick="joinTask(${task.id})">Записаться</button>
+                            </div>
+                        </div>
+                    `).join('');
+            }
+        }
+
+        // ==== РЕГИСТРАЦИЯ ====
+        async function registerVolunteer() {
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            if (!email || !password) {
+                showToast('Email и пароль обязательны', false);
+                return;
+            }
+
+            const result = await apiRequest('/api/register', 'POST', { email, password });
+
+            if (result?.success) {
+                showToast('Регистрация успешна! Теперь вы можете войти.');
+                closeModal('registerModal');
+                document.getElementById('regEmail').value = '';
+                document.getElementById('regPassword').value = '';
+                openModal('loginModal');
+            } else {
+                showToast(result?.message || 'Ошибка регистрации', false);
+            }
+        }
+
+        // ==== ВХОД ====
+        async function loginVolunteer() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showToast('Введите email и пароль', false);
+                return;
+            }
+
+            const result = await apiRequest('/api/login', 'POST', { email, password });
+
+            if (result?.success) {
+                showToast('Вход выполнен');
+                closeModal('loginModal');
+
+                localStorage.setItem('userEmail', email);
+                currentUser = { email };
+
+                updateUIBasedOnAuth();
+
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            } else {
+                showToast(result?.message || 'Неверный email или пароль', false);
+            }
+        }
+
+        // ==== ВЫХОД ====
+        function logout() {
+            localStorage.removeItem('userEmail');
+            currentUser = null;
+            updateUIBasedOnAuth();
+            showToast('Вы вышли из системы');
+        }
+
+        // ==== ЗАПИСЬ НА ЗАДАЧУ ====
+        function joinTask(taskId) {
+            if (!currentUser) {
+                showToast('Сначала войдите в систему', false);
+                openModal('loginModal');
+                return;
+            }
+
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                document.getElementById('joinTaskId').value = taskId;
+                document.getElementById('joinTaskInfo').textContent = `Записаться на задачу "${task.title}"?`;
+                openModal('joinTaskModal');
+            }
+        }
+
+        async function confirmJoinTask() {
+            const taskId = document.getElementById('joinTaskId').value;
+            const result = await apiRequest(`/api/tasks/${taskId}/join`, 'POST');
+            if (result?.success) {
+                showToast('Вы записаны!');
+                closeModal('joinTaskModal');
+            } else {
+                showToast('Ошибка записи', false);
+            }
+        }
+
+        // ==== ДЕТАЛИ ПРОЕКТА ====
+        async function showProjectDetails(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) {
+                showNotification('Ошибка', 'Проект не найден');
+                return;
+            }
+            document.getElementById('projectDetailTitle').textContent = project.name || 'Информация о проекте';
+            document.getElementById('projectDetailContent').innerHTML = `<p>${project.description || 'Описание отсутствует'}</p>`;
+            document.getElementById('projectTasksList').innerHTML = '<p>Загрузка задач...</p>';
+            openModal('projectDetailsModal');
+
+            // Загружаем задачи проекта, если есть эндпоинт
+            const projectTasks = await apiRequest(`/api/projects/${projectId}/tasks`);
+            const tasksHtml = projectTasks?.length
+                ? projectTasks.map(t => `<div class="project-task-item"><strong>${t.title}</strong><br><small>${t.task_date || ''}</small></div>`).join('')
+                : '<p>Нет задач для этого проекта</p>';
+            document.getElementById('projectTasksList').innerHTML = `<h4>Задачи проекта:</h4>${tasksHtml}`;
+        }
+
+        // ==== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            toast.style.background = isSuccess ? '#2d6a4f' : '#dc2626';
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
+        }
+
+        function showNotification(title, message) {
+            document.getElementById('notificationTitle').textContent = title;
+            document.getElementById('notificationMessage').textContent = message;
+            openModal('notificationModal');
+        }
+
+        function subscribeToNews() {
+            if (!currentUser) {
+                showToast('Сначала войдите в систему', false);
+                openModal('loginModal');
+                return;
+            }
+            showNotification('Подписка', 'Функция в разработке');
+        }
+
+        function showContacts() {
+            showNotification('Контакты', 'Email: info@dobrygorod.ru\nТелефон: 8 (800) 123-45-67');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showProjects() {
+            document.getElementById('projectsGrid').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showTasks() {
+            document.getElementById('tasksList').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showHelp() {
+            showNotification('Как помочь', 'Зарегистрируйтесь и выберите задачу!');
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+    </script>
 </body>
 </html>
