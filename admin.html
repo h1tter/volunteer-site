@@ -18,7 +18,6 @@
             display: flex;
             min-height: 100vh;
         }
-        /* Сайдбар */
         .sidebar {
             width: 250px;
             background: linear-gradient(180deg, #1e2f3a 0%, #1a2b33 100%);
@@ -45,23 +44,28 @@
         .sidebar-nav {
             padding: 20px 10px;
         }
-        .sidebar-nav a {
+        .sidebar-nav a, .sidebar-nav button {
             color: #b0c4ce;
             text-decoration: none;
             padding: 12px 20px;
             display: block;
             border-radius: 10px;
             margin: 4px 0;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
         }
-        .sidebar-nav a:hover, .sidebar-nav a.active {
+        .sidebar-nav a:hover, .sidebar-nav button:hover, .sidebar-nav .active {
             background-color: #2d6a4f;
             color: white;
         }
-        .sidebar-nav a i {
+        .sidebar-nav i {
             width: 24px;
             display: inline-block;
         }
-        /* Основной контент */
         .main-content {
             flex: 1;
             padding: 25px 30px;
@@ -93,7 +97,6 @@
             justify-content: center;
             font-weight: bold;
         }
-        /* Карточки статистики */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -130,7 +133,6 @@
             color: #6b7280;
             font-size: 14px;
         }
-        /* График (заглушка) */
         .chart-container {
             background: white;
             border-radius: 20px;
@@ -149,7 +151,6 @@
             color: #6b7280;
             margin-top: 15px;
         }
-        /* Таблица задач */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -167,6 +168,25 @@
             padding: 8px 20px;
             border-radius: 30px;
             font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-edit {
+            background: #ffc107;
+            color: #333;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 15px;
+            cursor: pointer;
         }
         .table-container {
             background: white;
@@ -174,10 +194,12 @@
             padding: 20px;
             border: 1px solid #eef2f6;
             margin-bottom: 30px;
+            overflow-x: auto;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 600px;
         }
         th {
             text-align: left;
@@ -197,7 +219,10 @@
             padding: 4px 12px;
             border-radius: 30px;
             font-size: 13px;
+            display: inline-block;
         }
+        .status-badge.open { background: #e8f5e9; color: #2d6a4f; }
+        .status-badge.completed { background: #e3f2fd; color: #1976d2; }
         .action-btn {
             background: none;
             border: 1px solid #e0e0e0;
@@ -207,7 +232,6 @@
             cursor: pointer;
             margin-right: 5px;
         }
-        /* Отчёты */
         .reports-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -240,16 +264,12 @@
         .report-actions button {
             background: none;
             border: none;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
             margin: 0 5px;
         }
-        .btn-success {
-            color: #2d6a4f;
-        }
-        .btn-danger {
-            color: #dc2626;
-        }
+        .btn-success { color: #2d6a4f; }
+        .btn-danger { color: #dc2626; }
         .quick-actions {
             background: white;
             border-radius: 20px;
@@ -270,27 +290,93 @@
         .quick-actions button:hover {
             background: #f0f0f0;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-content h3 {
+            margin-bottom: 20px;
+        }
+        .modal-content input, .modal-content textarea, .modal-content select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 16px;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .modal-buttons .submit {
+            background: #2d6a4f;
+            color: white;
+        }
+        .modal-buttons .cancel {
+            background: #f0f0f0;
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2d6a4f;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+            z-index: 2000;
+        }
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-section input, .filter-section select {
+            padding: 8px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 14px;
+        }
         @media (max-width: 1024px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .reports-grid {
-                grid-template-columns: 1fr;
-            }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .reports-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-            }
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Сайдбар (меню) -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <div style="font-size: 40px; margin-bottom: 10px;">🤝</div>
@@ -298,121 +384,1208 @@
                 <span class="badge">Администратор</span>
             </div>
             <div class="sidebar-nav">
-                <a href="#" class="active"><i>📊</i> Дашборд</a>
-                <a href="#"><i>📁</i> Проекты</a>
-                <a href="#"><i>✅</i> Задачи</a>
-                <a href="#"><i>👥</i> Волонтёры</a>
-                <a href="#"><i>📄</i> Отчёты</a>
-                <a href="#"><i>⚙️</i> Настройки</a>
+                <button class="active" onclick="showSection('dashboard')"><i>📊</i> Дашборд</button>
+                <button onclick="showSection('projects')"><i>📁</i> Проекты</button>
+                <button onclick="showSection('tasks')"><i>✅</i> Задачи</button>
+                <button onclick="showSection('volunteers')"><i>👥</i> Волонтёры</button>
+                <button onclick="showSection('reports')"><i>📄</i> Отчёты</button>
+                <button onclick="showSection('settings')"><i>⚙️</i> Настройки</button>
             </div>
         </div>
 
-        <!-- Основной контент -->
         <div class="main-content">
-            <!-- Верхняя панель -->
             <div class="top-bar">
-                <h1 class="page-title">Панель управления</h1>
+                <h1 class="page-title" id="pageTitle">Панель управления</h1>
                 <div class="admin-info">
                     <span>Администратор</span>
                     <div class="avatar">А</div>
+                    <button class="btn-outline" onclick="logout()">Выйти</button>
                 </div>
             </div>
 
-            <!-- Статистика (всё по нулям) -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-info">
-                        <h3>0</h3>
-                        <p>Волонтёров</p>
+            <!-- Дашборд -->
+            <div id="dashboardSection">
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="volunteersCount">0</h3>
+                            <p>Волонтёров</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-info">
+                            <h3 id="openTasksCount">0</h3>
+                            <p>Активных задач</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-info">
+                            <h3 id="pendingReportsCount">0</h3>
+                            <p>На проверке</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <h3 id="projectsCount">0</h3>
+                            <p>Проектов</p>
+                        </div>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📋</div>
-                    <div class="stat-info">
-                        <h3>0</h3>
-                        <p>Активных задач</p>
+
+                <div class="chart-container">
+                    <h3 style="margin-bottom: 15px;">Активность волонтёров</h3>
+                    <canvas id="activityChart" style="width:100%; height:200px;"></canvas>
+                    <div class="chart-placeholder" id="chartPlaceholder" style="display: none;">
+                        График активности загружается...
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⏳</div>
-                    <div class="stat-info">
-                        <h3>0</h3>
-                        <p>На проверке</p>
-                    </div>
+
+                <div class="section-header">
+                    <h2>📋 Последние задачи</h2>
+                    <button class="btn-add" onclick="showCreateTaskModal()">+ Создать задачу</button>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-info">
-                        <h3>0</h3>
-                        <p>Проектов</p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Проект</th>
+                                <th>Дата</th>
+                                <th>Волонтёры</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasksTableBody">
+                            <!-- Задачи будут загружены через API -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="reports-list">
+                        <h3 style="margin-bottom: 20px;">📬 Отчёты на проверке</h3>
+                        <div id="reportsList">
+                            <!-- Отчёты будут загружены через API -->
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <h3 style="margin-bottom: 20px;">⚡ Быстрые действия</h3>
+                        <button onclick="showCreateTaskModal()">📌 Создать новую задачу</button>
+                        <button onclick="showCreateProjectModal()">📁 Создать новый проект</button>
+                        <button onclick="showAddVolunteerModal()">👤 Добавить волонтёра</button>
+                        <button onclick="showNewsletterModal()">📧 Сделать рассылку</button>
+                        <button onclick="exportReport()">📊 Выгрузить отчёт</button>
                     </div>
                 </div>
             </div>
 
-            <!-- График (пустой) -->
-            <div class="chart-container">
-                <h3 style="margin-bottom: 15px;">Активность волонтёров</h3>
-                <div class="chart-placeholder">
-                    Нет данных для отображения
+            <!-- Проекты -->
+            <div id="projectsSection" style="display: none;">
+                <div class="section-header">
+                    <h2>📁 Управление проектами</h2>
+                    <button class="btn-add" onclick="showCreateProjectModal()">+ Новый проект</button>
+                </div>
+                <div class="filter-section">
+                    <input type="text" id="projectSearch" placeholder="Поиск проектов..." onkeyup="filterProjects()">
+                    <select id="projectStatusFilter" onchange="filterProjects()">
+                        <option value="all">Все статусы</option>
+                        <option value="active">Активные</option>
+                        <option value="completed">Завершённые</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Описание</th>
+                                <th>Статус</th>
+                                <th>Создан</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsTableBody">
+                            <!-- Проекты будут загружены через API -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
             <!-- Задачи -->
-            <div class="section-header">
-                <h2>📋 Список задач</h2>
-                <a href="#" class="btn-add">+ Создать задачу</a>
-            </div>
-            
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Название</th>
-                            <th>Проект</th>
-                            <th>Дата</th>
-                            <th>Волонтёры</th>
-                            <th>Статус</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 40px; color: #6b7280;">
-                                Задач пока нет. Нажмите "Создать задачу", чтобы добавить первую.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div id="tasksSection" style="display: none;">
+                <div class="section-header">
+                    <h2>✅ Управление задачами</h2>
+                    <button class="btn-add" onclick="showCreateTaskModal()">+ Новая задача</button>
+                </div>
+                <div class="filter-section">
+                    <input type="text" id="taskSearch" placeholder="Поиск задач..." onkeyup="filterTasks()">
+                    <select id="taskStatusFilter" onchange="filterTasks()">
+                        <option value="all">Все статусы</option>
+                        <option value="open">Открытые</option>
+                        <option value="in_progress">В процессе</option>
+                        <option value="completed">Завершённые</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Проект</th>
+                                <th>Дата</th>
+                                <th>Волонтёры</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allTasksTableBody">
+                            <!-- Все задачи будут загружены через API -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Отчёты и быстрые действия -->
-            <div class="reports-grid">
-                <!-- Отчёты -->
-                <div class="reports-list">
-                    <h3 style="margin-bottom: 20px;">📬 Новые отчёты</h3>
-                    <div style="text-align: center; padding: 40px; color: #6b7280;">
-                        Нет отчётов на проверке
+            <!-- Волонтёры -->
+            <div id="volunteersSection" style="display: none;">
+                <div class="section-header">
+                    <h2>👥 Волонтёры</h2>
+                    <button class="btn-add" onclick="showAddVolunteerModal()">+ Добавить</button>
+                </div>
+                <div class="filter-section">
+                    <input type="text" id="volunteerSearch" placeholder="Поиск волонтёров..." onkeyup="filterVolunteers()">
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Email</th>
+                                <th>Телефон</th>
+                                <th>Навыки</th>
+                                <th>Задач выполнено</th>
+                                <th>Регистрация</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="volunteersTableBody">
+                            <!-- Будут загружены через API -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Отчёты -->
+            <div id="reportsSection" style="display: none;">
+                <div class="section-header">
+                    <h2>📄 Отчёты волонтёров</h2>
+                </div>
+                <div class="filter-section">
+                    <select id="reportStatusFilter" onchange="filterReports()">
+                        <option value="pending">На проверке</option>
+                        <option value="approved">Одобренные</option>
+                        <option value="rejected">Отклонённые</option>
+                        <option value="all">Все</option>
+                    </select>
+                </div>
+                <div class="reports-list" style="width: 100%;">
+                    <div id="allReportsList">
+                        <!-- Все отчёты будут загружены через API -->
                     </div>
                 </div>
-
-                <!-- Быстрые действия -->
-                <div class="quick-actions">
-                    <h3 style="margin-bottom: 20px;">⚡ Быстрые действия</h3>
-                    <button>📌 Создать новую задачу</button>
-                    <button>👤 Добавить волонтёра</button>
-                    <button>📧 Сделать рассылку</button>
-                    <button>📊 Выгрузить отчёт</button>
-                </div>
             </div>
 
-            <!-- Подсказка для первого запуска -->
-            <div style="background: #e8f5e9; border-radius: 15px; padding: 20px; margin-top: 20px;">
-                <p style="color: #2d6a4f;">
-                    <strong>🚀 Добро пожаловать!</strong> Это новая система. Добавьте первый проект, чтобы начать работу.
-                </p>
+            <!-- Настройки -->
+            <div id="settingsSection" style="display: none;">
+                <div class="section-header">
+                    <h2>⚙️ Настройки</h2>
+                </div>
+                <div class="table-container">
+                    <h3 style="margin-bottom: 20px;">Общие настройки</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px;">Название организации:</label>
+                        <input type="text" id="orgName" value="Добрый Город" style="width: 100%; max-width: 400px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px;">Email для уведомлений:</label>
+                        <input type="email" id="notificationEmail" value="info@dobrygorod.ru" style="width: 100%; max-width: 400px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px;">Телефон:</label>
+                        <input type="text" id="contactPhone" value="8 (800) 123-45-67" style="width: 100%; max-width: 400px;">
+                    </div>
+                    
+                    <button class="btn-add" onclick="saveSettings()">Сохранить настройки</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Модальное окно создания задачи -->
+    <div class="modal" id="createTaskModal">
+        <div class="modal-content">
+            <h3>Создание задачи</h3>
+            <select id="taskProject">
+                <option value="">Выберите проект</option>
+            </select>
+            <input type="text" placeholder="Название задачи" id="taskTitle">
+            <textarea placeholder="Описание" id="taskDescription" rows="3"></textarea>
+            <input type="date" id="taskDate">
+            <input type="time" id="taskTime">
+            <input type="text" placeholder="Место проведения" id="taskLocation">
+            <input type="number" placeholder="Сколько нужно волонтёров" id="taskVolunteers" min="1" value="1">
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeModal('createTaskModal')">Отмена</button>
+                <button class="submit" onclick="createTask()">Создать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно создания проекта -->
+    <div class="modal" id="createProjectModal">
+        <div class="modal-content">
+            <h3>Создание проекта</h3>
+            <input type="text" placeholder="Название проекта" id="projectName">
+            <textarea placeholder="Описание" id="projectDescription" rows="3"></textarea>
+            <input type="text" placeholder="Иконка (эмодзи)" id="projectIcon" value="🤝">
+            <input type="text" placeholder="Контакты" id="projectContacts">
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeModal('createProjectModal')">Отмена</button>
+                <button class="submit" onclick="createProject()">Создать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления волонтёра -->
+    <div class="modal" id="addVolunteerModal">
+        <div class="modal-content">
+            <h3>Добавление волонтёра</h3>
+            <input type="text" placeholder="Имя" id="volunteerName">
+            <input type="email" placeholder="Email" id="volunteerEmail">
+            <input type="tel" placeholder="Телефон" id="volunteerPhone">
+            <textarea placeholder="Навыки (через запятую)" id="volunteerSkills" rows="3"></textarea>
+            <input type="password" placeholder="Пароль" id="volunteerPassword">
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeModal('addVolunteerModal')">Отмена</button>
+                <button class="submit" onclick="addVolunteer()">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно рассылки -->
+    <div class="modal" id="newsletterModal">
+        <div class="modal-content">
+            <h3>Рассылка уведомлений</h3>
+            <select id="newsletterTarget">
+                <option value="all">Всем волонтёрам</option>
+                <option value="active">Активным волонтёрам</option>
+                <option value="new">Новым волонтёрам</option>
+            </select>
+            <input type="text" placeholder="Тема" id="newsletterSubject">
+            <textarea placeholder="Текст сообщения" id="newsletterMessage" rows="5"></textarea>
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeModal('newsletterModal')">Отмена</button>
+                <button class="submit" onclick="sendNewsletter()">Отправить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h3 id="editModalTitle">Редактирование</h3>
+            <div id="editModalContent"></div>
+            <div class="modal-buttons">
+                <button class="cancel" onclick="closeModal('editModal')">Отмена</button>
+                <button class="submit" onclick="saveEdit()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно уведомлений -->
+    <div class="modal" id="notificationModal">
+        <div class="modal-content">
+            <h3 id="notificationTitle">Уведомление</h3>
+            <p id="notificationMessage"></p>
+            <div class="modal-buttons">
+                <button class="submit" onclick="closeModal('notificationModal')">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Тосты для уведомлений -->
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Глобальные переменные
+        let currentSection = 'dashboard';
+        let projects = [];
+        let tasks = [];
+        let volunteers = [];
+        let reports = [];
+        let editCallback = null;
+        let chart = null;
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadProjects();
+            loadTasks();
+            loadVolunteers();
+            loadReports();
+            loadActivityChart();
+        });
+
+        // Навигация по разделам
+        function showSection(section) {
+            document.querySelectorAll('.sidebar-nav button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('projectsSection').style.display = 'none';
+            document.getElementById('tasksSection').style.display = 'none';
+            document.getElementById('volunteersSection').style.display = 'none';
+            document.getElementById('reportsSection').style.display = 'none';
+            document.getElementById('settingsSection').style.display = 'none';
+
+            document.getElementById(section + 'Section').style.display = 'block';
+            currentSection = section;
+            
+            // Обновляем заголовок
+            const titles = {
+                'dashboard': 'Панель управления',
+                'projects': 'Управление проектами',
+                'tasks': 'Управление задачами',
+                'volunteers': 'Управление волонтёрами',
+                'reports': 'Отчёты волонтёров',
+                'settings': 'Настройки'
+            };
+            document.getElementById('pageTitle').textContent = titles[section];
+            
+            // Обновляем данные для раздела
+            if (section === 'projects') displayProjects();
+            if (section === 'tasks') displayAllTasks();
+            if (section === 'volunteers') displayVolunteers();
+            if (section === 'reports') displayAllReports();
+        }
+
+        // Модальные окна
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            toast.style.background = isSuccess ? '#2d6a4f' : '#dc2626';
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function showNotificationModal(title, message) {
+            document.getElementById('notificationTitle').textContent = title;
+            document.getElementById('notificationMessage').textContent = message;
+            openModal('notificationModal');
+        }
+
+        // Загрузка статистики
+        async function loadStats() {
+            try {
+                const response = await fetch('/admin/stats');
+                const data = await response.json();
+                
+                document.getElementById('volunteersCount').textContent = data.volunteers_count || 0;
+                document.getElementById('openTasksCount').textContent = data.open_tasks || 0;
+                document.getElementById('pendingReportsCount').textContent = data.pending_reports || 0;
+                document.getElementById('projectsCount').textContent = data.projects_count || 0;
+            } catch (error) {
+                console.error('Ошибка загрузки статистики:', error);
+                // Демо-данные
+                document.getElementById('volunteersCount').textContent = '124';
+                document.getElementById('openTasksCount').textContent = '18';
+                document.getElementById('pendingReportsCount').textContent = '7';
+                document.getElementById('projectsCount').textContent = '12';
+            }
+        }
+
+        // Загрузка проектов
+        async function loadProjects() {
+            try {
+                const response = await fetch('/admin/projects');
+                projects = await response.json();
+                displayProjects();
+                loadProjectSelect();
+            } catch (error) {
+                console.error('Ошибка загрузки проектов:', error);
+                // Демо-данные
+                projects = [
+                    {id: 1, name: 'Помощь пожилым', description: 'Помощь пожилым людям', status: 'active', created_at: '2025-01-15'},
+                    {id: 2, name: 'Забота о животных', description: 'Помощь приютам для животных', status: 'active', created_at: '2025-02-01'},
+                    {id: 3, name: 'Экология', description: 'Уборка парков и скверов', status: 'completed', created_at: '2025-01-20'}
+                ];
+                displayProjects();
+                loadProjectSelect();
+            }
+        }
+
+        function displayProjects() {
+            const tbody = document.getElementById('projectsTableBody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            projects.forEach(project => {
+                const statusClass = project.status === 'active' ? 'open' : 'completed';
+                tbody.innerHTML += `
+                    <tr data-project-id="${project.id}">
+                        <td>${project.name}</td>
+                        <td>${project.description || '—'}</td>
+                        <td><span class="status-badge ${statusClass}">${project.status === 'active' ? 'Активный' : 'Завершён'}</span></td>
+                        <td>${project.created_at || '—'}</td>
+                        <td>
+                            <button class="btn-edit" onclick="editProject(${project.id})">✏️ Редактировать</button>
+                            <button class="btn-delete" onclick="deleteProject(${project.id})">🗑️ Удалить</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterProjects() {
+            const search = document.getElementById('projectSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('projectStatusFilter').value;
+            
+            document.querySelectorAll('#projectsTableBody tr').forEach(row => {
+                const name = row.cells[0].textContent.toLowerCase();
+                const status = row.cells[2].textContent.toLowerCase();
+                
+                let show = name.includes(search);
+                if (statusFilter !== 'all') {
+                    const statusMatch = statusFilter === 'active' ? status.includes('активный') : status.includes('завершён');
+                    show = show && statusMatch;
+                }
+                
+                row.style.display = show ? '' : 'none';
+            });
+        }
+
+        function loadProjectSelect() {
+            const select = document.getElementById('taskProject');
+            if (!select) return;
+            
+            select.innerHTML = '<option value="">Выберите проект</option>';
+            
+            projects.forEach(project => {
+                if (project.status === 'active') {
+                    select.innerHTML += `<option value="${project.id}">${project.name}</option>`;
+                }
+            });
+        }
+
+        // Загрузка задач
+        async function loadTasks() {
+            try {
+                const response = await fetch('/admin/tasks');
+                tasks = await response.json();
+                displayTasks();
+                displayAllTasks();
+            } catch (error) {
+                console.error('Ошибка загрузки задач:', error);
+                // Демо-данные
+                tasks = [
+                    {id: 1, title: 'Помощь в доставке продуктов', project_name: 'Помощь пожилым', task_date: '2025-03-20', volunteers_needed: 5, volunteers_registered: 2, status: 'open'},
+                    {id: 2, title: 'Прогулка с собаками', project_name: 'Забота о животных', task_date: '2025-03-21', volunteers_needed: 3, volunteers_registered: 1, status: 'open'},
+                    {id: 3, title: 'Уборка парка', project_name: 'Экология', task_date: '2025-03-22', volunteers_needed: 10, volunteers_registered: 4, status: 'open'}
+                ];
+                displayTasks();
+                displayAllTasks();
+            }
+        }
+
+        function displayTasks() {
+            const tbody = document.getElementById('tasksTableBody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            tasks.slice(0, 5).forEach(task => {
+                const statusClass = task.status === 'open' ? 'open' : 'completed';
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${task.title}</td>
+                        <td>${task.project_name}</td>
+                        <td>${task.task_date || '—'}</td>
+                        <td>${task.volunteers_registered || 0}/${task.volunteers_needed}</td>
+                        <td><span class="status-badge ${statusClass}">${task.status === 'open' ? 'Открыта' : 'Завершена'}</span></td>
+                        <td>
+                            <button class="btn-edit" onclick="editTask(${task.id})">✏️</button>
+                            <button class="btn-delete" onclick="deleteTask(${task.id})">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function displayAllTasks() {
+            const tbody = document.getElementById('allTasksTableBody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            tasks.forEach(task => {
+                const statusClass = task.status === 'open' ? 'open' : 'completed';
+                tbody.innerHTML += `
+                    <tr data-task-id="${task.id}">
+                        <td>${task.title}</td>
+                        <td>${task.project_name}</td>
+                        <td>${task.task_date || '—'}</td>
+                        <td>${task.volunteers_registered || 0}/${task.volunteers_needed}</td>
+                        <td><span class="status-badge ${statusClass}">${task.status === 'open' ? 'Открыта' : 'Завершена'}</span></td>
+                        <td>
+                            <button class="btn-edit" onclick="editTask(${task.id})">✏️</button>
+                            <button class="btn-delete" onclick="deleteTask(${task.id})">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterTasks() {
+            const search = document.getElementById('taskSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('taskStatusFilter').value;
+            
+            document.querySelectorAll('#allTasksTableBody tr').forEach(row => {
+                const title = row.cells[0].textContent.toLowerCase();
+                const status = row.cells[4].textContent.toLowerCase();
+                
+                let show = title.includes(search);
+                if (statusFilter !== 'all') {
+                    const statusMatch = statusFilter === 'open' ? status.includes('открыта') : 
+                                      statusFilter === 'in_progress' ? status.includes('процессе') :
+                                      status.includes('завершена');
+                    show = show && statusMatch;
+                }
+                
+                row.style.display = show ? '' : 'none';
+            });
+        }
+
+        // Загрузка волонтёров
+        async function loadVolunteers() {
+            try {
+                const response = await fetch('/admin/volunteers');
+                volunteers = await response.json();
+                displayVolunteers();
+            } catch (error) {
+                console.error('Ошибка загрузки волонтёров:', error);
+                // Демо-данные
+                volunteers = [
+                    {id: 1, name: 'Иван Петров', email: 'ivan@mail.ru', phone: '+7 (999) 123-45-67', skills: 'водительские права, фото', tasks_completed: 5, registered_at: '2025-01-10'},
+                    {id: 2, name: 'Анна Смирнова', email: 'anna@mail.ru', phone: '+7 (999) 234-56-78', skills: 'организация, коммуникабельность', tasks_completed: 8, registered_at: '2025-01-15'},
+                    {id: 3, name: 'Петр Сидоров', email: 'petr@mail.ru', phone: '+7 (999) 345-67-89', skills: 'строительство, ремонт', tasks_completed: 3, registered_at: '2025-02-01'}
+                ];
+                displayVolunteers();
+            }
+        }
+
+        function displayVolunteers() {
+            const tbody = document.getElementById('volunteersTableBody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            volunteers.forEach(v => {
+                tbody.innerHTML += `
+                    <tr data-volunteer-id="${v.id}">
+                        <td>${v.name}</td>
+                        <td>${v.email}</td>
+                        <td>${v.phone || '-'}</td>
+                        <td>${v.skills || '-'}</td>
+                        <td>${v.tasks_completed || 0}</td>
+                        <td>${v.registered_at || '—'}</td>
+                        <td>
+                            <button class="btn-edit" onclick="editVolunteer(${v.id})">✏️</button>
+                            <button class="btn-delete" onclick="deleteVolunteer(${v.id})">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterVolunteers() {
+            const search = document.getElementById('volunteerSearch').value.toLowerCase();
+            
+            document.querySelectorAll('#volunteersTableBody tr').forEach(row => {
+                const name = row.cells[0].textContent.toLowerCase();
+                const email = row.cells[1].textContent.toLowerCase();
+                
+                row.style.display = (name.includes(search) || email.includes(search)) ? '' : 'none';
+            });
+        }
+
+        // Загрузка отчётов
+        async function loadReports() {
+            try {
+                const response = await fetch('/admin/reports');
+                reports = await response.json();
+                displayReports();
+                displayAllReports();
+            } catch (error) {
+                console.error('Ошибка загрузки отчётов:', error);
+                // Демо-данные
+                reports = [
+                    {id: 1, volunteer_name: 'Иван Петров', task_title: 'Помощь в доставке продуктов', report_text: 'Доставил продукты 5 пожилым людям', status: 'pending'},
+                    {id: 2, volunteer_name: 'Анна Смирнова', task_title: 'Прогулка с собаками', report_text: 'Погулял с 3 собаками из приюта', status: 'pending'},
+                    {id: 3, volunteer_name: 'Петр Сидоров', task_title: 'Уборка парка', report_text: 'Собрали 10 мешков мусора', status: 'approved'}
+                ];
+                displayReports();
+                displayAllReports();
+            }
+        }
+
+        function displayReports() {
+            const list = document.getElementById('reportsList');
+            if (!list) return;
+            
+            list.innerHTML = '';
+            
+            const pendingReports = reports.filter(r => r.status === 'pending');
+            
+            if (pendingReports.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #6b7280;">Нет отчётов на проверке</p>';
+                return;
+            }
+            
+            pendingReports.forEach(report => {
+                list.innerHTML += `
+                    <div class="report-item" id="report-${report.id}">
+                        <div class="report-info">
+                            <h4>${report.volunteer_name}</h4>
+                            <small>${report.task_title}</small>
+                            <p>${report.report_text.substring(0, 50)}...</p>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn-success" onclick="approveReport(${report.id})">✓</button>
+                            <button class="btn-danger" onclick="rejectReport(${report.id})">✗</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function displayAllReports() {
+            const list = document.getElementById('allReportsList');
+            if (!list) return;
+            
+            list.innerHTML = '';
+            
+            if (reports.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #6b7280;">Нет отчётов</p>';
+                return;
+            }
+            
+            reports.forEach(report => {
+                let statusClass = 'status-pending';
+                let statusText = 'На проверке';
+                
+                if (report.status === 'approved') {
+                    statusClass = 'status-approved';
+                    statusText = 'Одобрен';
+                } else if (report.status === 'rejected') {
+                    statusClass = 'status-rejected';
+                    statusText = 'Отклонён';
+                }
+                
+                list.innerHTML += `
+                    <div class="report-item" data-report-id="${report.id}">
+                        <div class="report-info">
+                            <h4>${report.volunteer_name}</h4>
+                            <small>${report.task_title}</small>
+                            <p>${report.report_text}</p>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn-edit" onclick="editReport(${report.id})">✏️</button>
+                            <button class="btn-delete" onclick="deleteReport(${report.id})">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterReports() {
+            const filter = document.getElementById('reportStatusFilter').value;
+            
+            document.querySelectorAll('#allReportsList .report-item').forEach(item => {
+                const statusElement = item.querySelector('.status-badge');
+                const status = statusElement ? statusElement.textContent : '';
+                
+                let show = filter === 'all';
+                if (filter === 'pending') show = status === 'На проверке';
+                if (filter === 'approved') show = status === 'Одобрен';
+                if (filter === 'rejected') show = status === 'Отклонён';
+                
+                item.style.display = show ? '' : 'none';
+            });
+        }
+
+        // Создание задачи
+        function showCreateTaskModal() {
+            loadProjectSelect();
+            openModal('createTaskModal');
+        }
+
+        async function createTask() {
+            const data = {
+                project_id: document.getElementById('taskProject').value,
+                title: document.getElementById('taskTitle').value,
+                description: document.getElementById('taskDescription').value,
+                date: document.getElementById('taskDate').value,
+                time: document.getElementById('taskTime').value,
+                location: document.getElementById('taskLocation').value,
+                volunteers_needed: document.getElementById('taskVolunteers').value
+            };
+
+            if (!data.project_id || !data.title) {
+                showToast('Заполните обязательные поля', false);
+                return;
+            }
+
+            try {
+                const response = await fetch('/admin/create_task', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                showToast(result.message, result.success);
+
+                if (result.success) {
+                    closeModal('createTaskModal');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            } catch (error) {
+                showToast('Ошибка соединения', false);
+                // Для демо
+                showToast('Задача создана (демо-режим)');
+                closeModal('createTaskModal');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        // Создание проекта
+        function showCreateProjectModal() {
+            openModal('createProjectModal');
+        }
+
+        async function createProject() {
+            const name = document.getElementById('projectName').value;
+            const description = document.getElementById('projectDescription').value;
+            const icon = document.getElementById('projectIcon').value;
+            const contacts = document.getElementById('projectContacts').value;
+
+            if (!name) {
+                showToast('Введите название проекта', false);
+                return;
+            }
+
+            try {
+                const response = await fetch('/admin/create_project', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, description, icon, contacts })
+                });
+
+                const result = await response.json();
+                showToast(result.message, result.success);
+
+                if (result.success) {
+                    closeModal('createProjectModal');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            } catch (error) {
+                showToast('Ошибка соединения', false);
+                // Для демо
+                showToast('Проект создан (демо-режим)');
+                closeModal('createProjectModal');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        // Добавление волонтёра
+        function showAddVolunteerModal() {
+            openModal('addVolunteerModal');
+        }
+
+        async function addVolunteer() {
+            const name = document.getElementById('volunteerName').value;
+            const email = document.getElementById('volunteerEmail').value;
+            const phone = document.getElementById('volunteerPhone').value;
+            const skills = document.getElementById('volunteerSkills').value;
+            const password = document.getElementById('volunteerPassword').value;
+
+            if (!name || !email || !password) {
+                showToast('Заполните обязательные поля', false);
+                return;
+            }
+
+            try {
+                const response = await fetch('/admin/add_volunteer', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, email, phone, skills, password })
+                });
+
+                const result = await response.json();
+                showToast(result.message, result.success);
+
+                if (result.success) {
+                    closeModal('addVolunteerModal');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            } catch (error) {
+                showToast('Ошибка соединения', false);
+                // Для демо
+                showToast('Волонтёр добавлен (демо-режим)');
+                closeModal('addVolunteerModal');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        // Работа с отчётами
+        async function approveReport(reportId) {
+            try {
+                const response = await fetch(`/admin/approve_report/${reportId}`, {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById(`report-${reportId}`).remove();
+                    showToast('Отчёт одобрен');
+                }
+            } catch (error) {
+                showToast('Ошибка', false);
+                // Для демо
+                document.getElementById(`report-${reportId}`).remove();
+                showToast('Отчёт одобрен (демо-режим)');
+            }
+        }
+
+        async function rejectReport(reportId) {
+            try {
+                const response = await fetch(`/admin/reject_report/${reportId}`, {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById(`report-${reportId}`).remove();
+                    showToast('Отчёт отклонён');
+                }
+            } catch (error) {
+                showToast('Ошибка', false);
+                // Для демо
+                document.getElementById(`report-${reportId}`).remove();
+                showToast('Отчёт отклонён (демо-режим)');
+            }
+        }
+
+        // Редактирование задач
+        function editTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+            
+            const modalContent = document.getElementById('editModalContent');
+            modalContent.innerHTML = `
+                <input type="text" id="editTitle" value="${task.title}" placeholder="Название">
+                <select id="editProject">
+                    ${projects.map(p => `<option value="${p.id}" ${p.name === task.project_name ? 'selected' : ''}>${p.name}</option>`).join('')}
+                </select>
+                <input type="date" id="editDate" value="${task.task_date || ''}">
+                <input type="number" id="editNeeded" value="${task.volunteers_needed}" placeholder="Нужно волонтёров">
+                <select id="editStatus">
+                    <option value="open" ${task.status === 'open' ? 'selected' : ''}>Открыта</option>
+                    <option value="completed" ${task.status === 'completed' ? 'selected' : ''}>Завершена</option>
+                </select>
+            `;
+            
+            document.getElementById('editModalTitle').textContent = 'Редактирование задачи';
+            editCallback = () => saveTaskEdit(taskId);
+            openModal('editModal');
+        }
+
+        function saveTaskEdit(taskId) {
+            const title = document.getElementById('editTitle').value;
+            const projectId = document.getElementById('editProject').value;
+            const date = document.getElementById('editDate').value;
+            const needed = document.getElementById('editNeeded').value;
+            const status = document.getElementById('editStatus').value;
+            
+            // Здесь будет API запрос
+            showToast('Задача обновлена');
+            closeModal('editModal');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        // Удаление задач
+        function deleteTask(taskId) {
+            if (confirm('Удалить задачу?')) {
+                // Здесь будет API запрос
+                showToast('Задача удалена');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        // Редактирование проектов
+        function editProject(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+            
+            const modalContent = document.getElementById('editModalContent');
+            modalContent.innerHTML = `
+                <input type="text" id="editProjectName" value="${project.name}" placeholder="Название">
+                <textarea id="editProjectDesc" placeholder="Описание">${project.description || ''}</textarea>
+                <input type="text" id="editProjectIcon" value="${project.icon || '🤝'}" placeholder="Иконка">
+                <input type="text" id="editProjectContacts" value="${project.contacts || ''}" placeholder="Контакты">
+                <select id="editProjectStatus">
+                    <option value="active" ${project.status === 'active' ? 'selected' : ''}>Активный</option>
+                    <option value="completed" ${project.status === 'completed' ? 'selected' : ''}>Завершён</option>
+                </select>
+            `;
+            
+            document.getElementById('editModalTitle').textContent = 'Редактирование проекта';
+            editCallback = () => saveProjectEdit(projectId);
+            openModal('editModal');
+        }
+
+        function saveProjectEdit(projectId) {
+            const name = document.getElementById('editProjectName').value;
+            const description = document.getElementById('editProjectDesc').value;
+            const icon = document.getElementById('editProjectIcon').value;
+            const contacts = document.getElementById('editProjectContacts').value;
+            const status = document.getElementById('editProjectStatus').value;
+            
+            // Здесь будет API запрос
+            showToast('Проект обновлён');
+            closeModal('editModal');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        function deleteProject(projectId) {
+            if (confirm('Удалить проект?')) {
+                // Здесь будет API запрос
+                showToast('Проект удалён');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        // Редактирование волонтёров
+        function editVolunteer(volunteerId) {
+            const volunteer = volunteers.find(v => v.id === volunteerId);
+            if (!volunteer) return;
+            
+            const modalContent = document.getElementById('editModalContent');
+            modalContent.innerHTML = `
+                <input type="text" id="editVolName" value="${volunteer.name}" placeholder="Имя">
+                <input type="email" id="editVolEmail" value="${volunteer.email}" placeholder="Email">
+                <input type="tel" id="editVolPhone" value="${volunteer.phone || ''}" placeholder="Телефон">
+                <textarea id="editVolSkills" placeholder="Навыки">${volunteer.skills || ''}</textarea>
+            `;
+            
+            document.getElementById('editModalTitle').textContent = 'Редактирование волонтёра';
+            editCallback = () => saveVolunteerEdit(volunteerId);
+            openModal('editModal');
+        }
+
+        function saveVolunteerEdit(volunteerId) {
+            const name = document.getElementById('editVolName').value;
+            const email = document.getElementById('editVolEmail').value;
+            const phone = document.getElementById('editVolPhone').value;
+            const skills = document.getElementById('editVolSkills').value;
+            
+            // Здесь будет API запрос
+            showToast('Данные волонтёра обновлены');
+            closeModal('editModal');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        function deleteVolunteer(volunteerId) {
+            if (confirm('Удалить волонтёра?')) {
+                // Здесь будет API запрос
+                showToast('Волонтёр удалён');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        // Редактирование отчётов
+        function editReport(reportId) {
+            const report = reports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            const modalContent = document.getElementById('editModalContent');
+            modalContent.innerHTML = `
+                <textarea id="editReportText" placeholder="Текст отчёта">${report.report_text}</textarea>
+                <select id="editReportStatus">
+                    <option value="pending" ${report.status === 'pending' ? 'selected' : ''}>На проверке</option>
+                    <option value="approved" ${report.status === 'approved' ? 'selected' : ''}>Одобрен</option>
+                    <option value="rejected" ${report.status === 'rejected' ? 'selected' : ''}>Отклонён</option>
+                </select>
+            `;
+            
+            document.getElementById('editModalTitle').textContent = 'Редактирование отчёта';
+            editCallback = () => saveReportEdit(reportId);
+            openModal('editModal');
+        }
+
+        function saveReportEdit(reportId) {
+            const text = document.getElementById('editReportText').value;
+            const status = document.getElementById('editReportStatus').value;
+            
+            // Здесь будет API запрос
+            showToast('Отчёт обновлён');
+            closeModal('editModal');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        function deleteReport(reportId) {
+            if (confirm('Удалить отчёт?')) {
+                // Здесь будет API запрос
+                showToast('Отчёт удалён');
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        // Сохранение редактирования
+        function saveEdit() {
+            if (editCallback) {
+                editCallback();
+            }
+        }
+
+        // Рассылка
+        function showNewsletterModal() {
+            openModal('newsletterModal');
+        }
+
+        function sendNewsletter() {
+            const target = document.getElementById('newsletterTarget').value;
+            const subject = document.getElementById('newsletterSubject').value;
+            const message = document.getElementById('newsletterMessage').value;
+            
+            if (!subject || !message) {
+                showToast('Заполните все поля', false);
+                return;
+            }
+            
+            // Здесь будет API запрос
+            showToast('Рассылка отправлена');
+            closeModal('newsletterModal');
+            
+            document.getElementById('newsletterSubject').value = '';
+            document.getElementById('newsletterMessage').value = '';
+        }
+
+        // Экспорт отчёта
+        function exportReport() {
+            const data = {
+                volunteers: volunteers.length,
+                tasks: tasks.length,
+                reports: reports.length,
+                projects: projects.length,
+                date: new Date().toLocaleDateString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `report_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            showToast('Отчёт экспортирован');
+        }
+
+        // Сохранение настроек
+        function saveSettings() {
+            const orgName = document.getElementById('orgName').value;
+            const notificationEmail = document.getElementById('notificationEmail').value;
+            const contactPhone = document.getElementById('contactPhone').value;
+            
+            // Здесь будет API запрос
+            showToast('Настройки сохранены');
+        }
+
+        // График активности
+        function loadActivityChart() {
+            const ctx = document.getElementById('activityChart');
+            if (!ctx) return;
+            
+            // Демо-данные для графика
+            const labels = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+            const data = [5, 8, 12, 7, 15, 20, 18];
+            
+            if (chart) {
+                chart.destroy();
+            }
+            
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Активных волонтёров',
+                        data: data,
+                        borderColor: '#2d6a4f',
+                        backgroundColor: 'rgba(45, 106, 79, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('chartPlaceholder').style.display = 'none';
+        }
+
+        // Выход из админки
+        function logout() {
+            window.location.href = '/';
+        }
+
+        // Закрытие модальных окон при клике вне их
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
